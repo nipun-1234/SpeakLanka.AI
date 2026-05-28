@@ -199,7 +199,7 @@ app = Flask(__name__)
 
 # 🔑 Groq API Key
 GROQ_API_KEY = ""
-client = Groq(api_key=GROQ_API_KEY)
+client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
 
 @app.route("/")
 def home():
