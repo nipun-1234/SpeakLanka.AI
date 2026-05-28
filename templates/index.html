@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakLanka - Voice Translator</title>
+    <link rel="stylesheet" href="{{ url_with_static_path if url_for else '' }}/static/style.css" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1><i class="fa-solid fa-microphone-lines"></i> SpeakLanka AI</h1>
+        <p class="subtitle">Sinhala ↔ English Voice Translator</p>
+        
+        <div class="lang-controls">
+            <span id="src-label" class="active-lang">English</span>
+            <button id="switch-btn" class="icon-btn"><i class="fa-solid fa-right-left"></i></button>
+            <span id="target-label">Sinhala</span>
+        </div>
+
+        <div class="translator-box">
+            <div class="box-input">
+                <textarea id="input-text" placeholder="Type something or use the mic..."></textarea>
+                <div class="action-bar">
+                    <div style="display: flex; gap: 8px;">
+                        <button id="mic-btn" class="action-btn mic-off"><i class="fa-solid fa-microphone"></i></button>
+                        <button id="upload-btn" class="action-btn" style="background: #22c55e;"><i class="fa-solid fa-image"></i></button>
+                        <input type="file" id="image-file" accept="image/*" style="display: none;">
+                    </div>
+                    <div>
+                        <button id="translate-btn" class="main-btn">Translate</button>
+                        <button id="ai-btn" class="main-btn" style="background: #a855f7; margin-left: 10px;"><i class="fa-solid fa-robot"></i> Ask AI</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="box-output">
+                <div id="output-text" class="placeholder-text">Translation will appear here...</div>
+                <div class="action-bar justify-end">
+                    <button id="speak-btn" class="action-btn" disabled><i class="fa-solid fa-volume-high"></i></button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <audio id="bg-audio" style="display: none;"></audio>    
+</body>
+</html>
