@@ -6,3 +6,4 @@ groq
 gunicorn
 werkzeug
 wsgi
+gTTS
