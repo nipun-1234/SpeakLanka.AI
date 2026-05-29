@@ -267,16 +267,4 @@ if (uploadBtn && imageFile) {
         }
     });
 }
-// 📱 Mobile බ්‍රවුසර් වල ඉමේජ් බටන් එක ටැප් කරද්දී Gallery එක ඕපන් කරවීමට
-const mobileUploadBtn = document.getElementById('upload-btn');
-const mobileImageFile = document.getElementById('image-file');
 
-if (mobileUploadBtn && mobileImageFile) {
-    // Laptop ක්ලික් එකට සහ Phone ටැප් එකට දෙකටම වැඩ කරන්න Event Handle කරනවා
-    ['click', 'touchstart'].forEach(eventType => {
-        mobileUploadBtn.addEventListener(eventType, function(e) {
-            e.preventDefault(); // ෆෝන් එකේ ඩබල් ටැප් ලෙඩ (Zoom/Double fire) වළක්වන්න
-            mobileImageFile.click(); // හංගලා තියෙන File Input එක ක්ලික් කරලා කැමරා/ගැලරි ඕපන් කරනවා
-        });
-    });
-}
