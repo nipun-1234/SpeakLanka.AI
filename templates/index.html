@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+    
     <title>SpeakLanka - Voice Translator</title>
+    <meta name="description" content="SpeakLanka.AI is an advanced AI voice assistant that speaks and understands Sinhalese. Experience seamless Sinhala speech-to-text and text-to-speech.">
+    <meta name="keywords" content="SpeakLanka, SpeakLanka AI, Sinhala AI, Voice Assistant Sri Lanka, Sinhala ChatBot, Groq Sinhala">
+    <meta name="author" content="Nipun">
+
     <link rel="stylesheet" href="{{ url_with_static_path if url_for else '' }}/static/style.css" href="/static/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
