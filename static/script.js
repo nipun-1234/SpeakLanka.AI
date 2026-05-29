@@ -51,7 +51,7 @@ micBtn.addEventListener('click', () => {
     }
 });
 
-// 🔄 භාෂා දෙක මාරු කරන බටන් එක ඇතුළේ placeholder පාටවල් පාලනය කිරීම
+// 🔄 භාෂා දෙක මාරු කරන බටන් එක
 switchBtn.addEventListener('click', () => {
     if (sourceLang === 'en') {
         sourceLang = 'si'; targetLang = 'en';
@@ -65,31 +65,29 @@ switchBtn.addEventListener('click', () => {
     
     let temp = inputText.value;
     
-    // 💡 දකුණු පැත්තේ තියෙන්නේ placeholder එකක් නම්, ඒකට .placeholder-text ක්ලාස් එක දාල ලා පාට කරනවා
     if (outputText.textContent === "Translation will appear here..." || outputText.textContent === "පරිවර්තනය මෙහි දිස්වනු ඇත...") {
         inputText.value = "";
-        outputText.classList.add('placeholder-text'); // 👈 ලා පාට ක්ලාස් එක දානවා
+        outputText.classList.add('placeholder-text'); 
     } else {
         inputText.value = outputText.textContent;
-        outputText.classList.remove('placeholder-text'); // 👈 ඇත්තම උත්තරයක් නම් තද පාට කරනවා
+        outputText.classList.remove('placeholder-text'); 
     }
     
     outputText.textContent = temp || (sourceLang === 'en' ? "Translation will appear here..." : "පරිවර්තනය මෙහි දිස්වනු ඇත...");
 });
 
-// 💡 Translate බටන් එක ඇතුළේ උත්තරය ආවම placeholder ක්ලාස් එක අයින් කරන්න සහ Typing Animation එක පෙන්වීමට
+// 💡 Translate බටන් එක
 translateBtn.addEventListener('click', async () => {
     const text = inputText.value.trim();
     if (!text) return;
 
-    // 💡 "Translating" මැසේජ් එකත් එක්ක ලස්සනට අර තිත් 3 එකතු කරනවා
     outputText.innerHTML = `
         <div class="typing-loader">
             Translating
             <span></span><span></span><span></span>
         </div>
     `;
-    outputText.classList.remove('placeholder-text'); // ලා පාට අයින් කරනවා (ඇනිමේෂන් එකේ තිත් පාට ලස්සනට පේන්න)
+    outputText.classList.remove('placeholder-text'); 
 
     try {
         const response = await fetch('/translate', {
@@ -101,9 +99,8 @@ translateBtn.addEventListener('click', async () => {
         const data = await response.json();
         
         if (data.translated) {
-            // 💡 පරිවර්තනය ආපු ගමන් ඇනිමේෂන් එක අයින් වෙලා උත්තරය වදිනවා
             outputText.textContent = data.translated;
-            outputText.classList.remove('placeholder-text'); // 👈 උත්තරය ආව ගමන් තද සුදු පාට වෙනවා!
+            outputText.classList.remove('placeholder-text'); 
             speakBtn.disabled = false;
         } else {
             outputText.textContent = "Error: " + data.error;
@@ -114,9 +111,8 @@ translateBtn.addEventListener('click', async () => {
     }
 });
 
-// 🔊 Text-to-Speech (ඉංග්‍රීසි බ්‍රවුසර් එකෙන්, සිංහල බැක්එන්ඩ් ස්ට්‍රීම් එකෙන්)
+// 🔊 Text-to-Speech
 speakBtn.addEventListener('click', () => {
-    // 💡 div එකක් නිසා .innerText සහ .textContent දෙකම චෙක් කරලා ශුවර් කරගන්නවා text එක ගන්න
     let text = outputText.innerText || outputText.textContent || "";
     text = text.trim();
     
@@ -128,13 +124,11 @@ speakBtn.addEventListener('click', () => {
     const hasSinhala = /[\u0D80-\u0DFF]/.test(text);
 
     if (!hasSinhala) {
-        // --- 🇬🇧 English Voice ---
         window.speechSynthesis.cancel();
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'en-US';
         window.speechSynthesis.speak(utterance);
     } else {
-        // --- 🇱🇰 Sinhala Voice (Flask Streaming) ---
         let audioPlayer = document.getElementById('bg-audio');
         if (!audioPlayer) {
             audioPlayer = document.createElement('audio');
@@ -143,7 +137,6 @@ speakBtn.addEventListener('click', () => {
             document.body.appendChild(audioPlayer);
         }
 
-        // Backend එකේ gTTS ස්ට්‍රීම් එකට කෝල් කිරීම
         audioPlayer.src = `/stream-tts?text=${encodeURIComponent(text)}`;
         audioPlayer.play().catch(err => {
             console.error("Streaming error:", err);
@@ -154,13 +147,11 @@ speakBtn.addEventListener('click', () => {
 
 // 🤖 AI Chatbot බටන් එක
 const aiBtn = document.getElementById('ai-btn');
-// 🤖 AI Chatbot බටන් එකේ වැඩ කෑලි (Typing Animation එකත් එක්ක)
 if (aiBtn) {
     aiBtn.addEventListener('click', async () => {
         const text = inputText.value.trim();
         if (!text) return;
 
-        // 💡 "AI උත්තරයක් හිතමින් පවතිනවා..." කියන මැසේජ් එකයි තිත් 3යි ලස්සනට ඇතුළත් කරනවා
         outputText.innerHTML = `
             <div class="typing-loader">
                 AI උත්තරයක් හිතමින් පවතිනවා
@@ -179,7 +170,6 @@ if (aiBtn) {
             const data = await response.json();
             
             if (data.response) {
-                // 💡 උත්තරය ආපු ගමන් ඇනිමේෂන් එක අයින් වෙලා උත්තරය වදිනවා
                 outputText.textContent = data.response;
                 speakBtn.disabled = false; 
             } else {
@@ -191,37 +181,28 @@ if (aiBtn) {
         }
     });
 }
-// ⚡ වම් පැත්තේ වචන මකද්දී දකුණු පැත්තේ එකත් auto හිස් වෙන්න හැදූ කොටස
+
+// ⚡ වම් පැත්තේ වචන මකද්දී auto හිස් වෙන්න හැදූ කොටස
 inputText.addEventListener('input', () => {
-    // වම් පැත්තේ කොටුව හිස් නම් විතරක් මේක වැඩ කරන්නේ
     if (inputText.value.trim() === "") {
-        // දකුණු පැත්තේ භාෂාව සිංහලද ඉංග්‍රීසිද අනුව අදාළ placeholder text එක සෙට් කරනවා
         if (sourceLang === 'en') {
             outputText.textContent = "Translation will appear here...";
         } else {
             outputText.textContent = "පරිවර්තනය මෙහි දිස්වනු ඇත...";
         }
-        
-        // ආපහු ලා පාට (placeholder color) එක දෙනවා
         outputText.classList.add('placeholder-text');
-        
-        // වචනයක් නැති නිසා voice බටන් එක disabled කරනවා ලෙඩක් නොවෙන්න
         speakBtn.disabled = true;
     }
 });
 
 // =======================================================
-// 📸 Screenshot / Image Translate JavaScript Logic
+// 📸 Screenshot / Image Translate Logic
 // =======================================================
-const uploadBtn = document.getElementById('upload-btn');
 const imageFile = document.getElementById('image-file');
 
-// Image අයිකන් එක එබුවම file selector එක ඕපන් කරන්න
-if (uploadBtn && imageFile) {
-    uploadBtn.addEventListener('click', () => {
-        imageFile.click();
-    });
-
+// 💡 මෙතන තිබ්බ පරණ uploadBtn.addEventListener('click') එක අයින් කරා! 
+// මොකද HTML <label> එකෙන් දැන් ඔටෝමැටිකවම පල්ලෙහා තියෙන change event එක වැඩ කරවනවා.
+if (imageFile) {
     // ඉමේජ් එකක් සිලෙක්ට් කරපු සැනින් auto වැඩේ සිද්ධ වෙනවා
     imageFile.addEventListener('change', async () => {
         const file = imageFile.files[0];
@@ -232,7 +213,6 @@ if (uploadBtn && imageFile) {
         formData.append('source', sourceLang);
         formData.append('target', targetLang);
 
-        // ට්‍රාන්ස්ලේට් වෙද්දී ලස්සන තිත් 3 ඇනිමේෂන් එක පෙන්වීම
         outputText.innerHTML = `
             <div class="typing-loader">
                 Reading Screenshot
@@ -250,12 +230,10 @@ if (uploadBtn && imageFile) {
             const data = await response.json();
 
             if (response.ok) {
-                // වම් පැත්තේ කොටුවට ඉමේජ් එකෙන් කියවගත්ත text එක දානවා
                 inputText.value = data.extracted_text;
-                // දකුණු පැත්තේ කොටුවට පරිවර්තනය වූ text එක දානවා
                 outputText.textContent = data.translated_text;
                 outputText.classList.remove('placeholder-text');
-                speakBtn.disabled = false; // Voice බටන් එක enable කිරීම
+                speakBtn.disabled = false; 
             } else {
                 outputText.textContent = "Error: " + (data.error || "අකුරු කියවීමට නොහැක.");
             }
@@ -263,8 +241,7 @@ if (uploadBtn && imageFile) {
             outputText.textContent = "Server සම්බන්ධතාව බිඳ වැටුණි.";
             console.error(error);
         } finally {
-            imageFile.value = ""; // ආපහු ඉමේජ් එකක් දාන්න පුළුවන් වෙන්න clear කිරීම
+            imageFile.value = ""; 
         }
     });
 }
-
