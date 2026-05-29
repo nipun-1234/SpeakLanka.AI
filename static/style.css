@@ -386,3 +386,19 @@ textarea {
     margin: 0 auto;
 }
 
+/* 📱 ෆෝන් එකෙන් බලද්දී බොක්ස් දෙක එක යට එක පිළිවෙලට පෙන්වීම */
+@media (max-width: 768px) {
+    .translator-box {
+        display: flex;
+        flex-direction: column; /* බොක්ස් දෙක Side-by-Side නැතුව එක යට එක දානවා */
+        gap: 20px; /* බොක්ස් දෙක අතරට ලස්සන ඉඩක් තියනවා */
+    }
+
+    .box-input, .box-output {
+        width: 100% !important; /* ෆෝන් එකේ පළලටම බොක්ස් දෙක හැදෙනවා */
+    }
+    
+    .container {
+        padding: 15px; /* ෆෝන් එකේ දෙපැත්තෙන් පොඩි ඉඩක් තියනවා */
+    }
+}
